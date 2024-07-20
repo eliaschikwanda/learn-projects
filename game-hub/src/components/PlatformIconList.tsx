@@ -12,7 +12,6 @@ import { BsGlobe } from "react-icons/bs";
 import { Platform } from "../hooks/useGames";
 import { Icon, HStack } from "@chakra-ui/react";
 import { IconType } from "react-icons";
-import CriticScore from "./CriticScore";
 
 interface PlatformIconListProps {
   platforms: Platform[];

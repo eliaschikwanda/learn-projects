@@ -24,21 +24,27 @@ export interface FetchGamesResponse {
 const useGames = () =>{
     const [games, setGames] = useState<Game[]>([]);
     const [error, setError] = useState<string>('');
+    const [isLoading, setLoading] = useState<boolean>(false);
 
     useEffect(() => {
         const controller = new AbortController(); // The cancel function passed as a second argument in the get function
 
+        setLoading(true);
         apiClient.get<FetchGamesResponse>('/games', {signal: controller.signal} )
-        .then((res)=> {setGames(res.data.results)})
+        .then((res)=> {
+            setGames(res.data.results);
+            setLoading(false);
+        })
         .catch((err) => {
             if(err instanceof CanceledError) return; // Because the error message will be assigned to cancel
             setError(err.message);
+            setLoading(false);
         });
 
         return () => {controller.abort()} // Call the function to stop the call to the server
     }, []);
 
-    return {games, error}
+    return {games, error, isLoading}
 
 }
 
