@@ -1,4 +1,4 @@
-import { CanceledError } from "axios";
+import { AxiosRequestConfig, CanceledError } from "axios";
 import { useEffect, useState } from "react";
 import apiClient from "../services/api-client";
 
@@ -7,7 +7,7 @@ interface FetchResponse<T> {
     results: T[];
 }
 
-const useData = <T>(endpoint: string) => {
+const useData = <T>(endpoint: string, requestConfig?: AxiosRequestConfig, deps?: any[]) => {
     const [data, setGames] = useState<T[]>([]);
     const [error, setError] = useState<string>('');
     const [isLoading, setLoading] = useState<boolean>(false);
@@ -16,7 +16,7 @@ const useData = <T>(endpoint: string) => {
         const controller = new AbortController(); // The cancel function passed as a second argument in the get function
 
         setLoading(true);
-        apiClient.get<FetchResponse<T>>(endpoint, {signal: controller.signal} )
+        apiClient.get<FetchResponse<T>>(endpoint, {signal: controller.signal, ...requestConfig} ) // ...requestConfig is needed to add any additional properties
         .then((res)=> {
             setGames(res.data.results);
             setLoading(false);
@@ -28,7 +28,7 @@ const useData = <T>(endpoint: string) => {
         });
 
         return () => {controller.abort()} // Call the function to stop the call to the server
-    }, []);
+    }, deps ? [...deps] : []);
 
     return {data, error, isLoading}
 }
