@@ -2,7 +2,7 @@ import genres from "../data/genres";
 
 export interface Genre {
     id: number;
-    name: number;
+    name: string;
     image_background: string;
 }
 
