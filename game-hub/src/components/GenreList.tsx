@@ -11,7 +11,9 @@ const GenreList = ({onSelectGenre, selectedGenre} : selectedGenreProp) => {
   const { data, isLoading, error } = useGenres();
 
   if (isLoading) return <Spinner/>;
+
   if (error) return null;
+  
   return (
     <>
       <Heading fontSize={'2xl'} marginBottom={3}>Genres</Heading>
