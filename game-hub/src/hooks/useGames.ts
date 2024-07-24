@@ -20,7 +20,12 @@ const useGames = (gameQuery: GameQuery) =>
   useData<Game>(
     "/games",
     {
-      params: { genre: gameQuery.genre?.id, platforms: gameQuery.platform?.id, ordering: gameQuery.sortOrder },
+      params: {
+        genre: gameQuery.genre?.id,
+        platforms: gameQuery.platform?.id,
+        ordering: gameQuery.sortOrder,
+        search: gameQuery.searchText,
+      },
     },
     [gameQuery] // Dependency array
   ); // This is allowed by the backend for filtering
