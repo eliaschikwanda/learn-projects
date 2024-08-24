@@ -1,5 +1,6 @@
-package com.jphanos.book_network;
+package com.jphanos.book_network.role;
 
+import com.jphanos.book_network.user.User;
 import jakarta.persistence.*;
 import lombok.*;
 import org.springframework.data.annotation.CreatedDate;

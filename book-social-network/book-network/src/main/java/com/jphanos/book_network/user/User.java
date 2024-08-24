@@ -1,6 +1,7 @@
-package com.jphanos.book_network;
+package com.jphanos.book_network.user;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.jphanos.book_network.role.Role;
 import jakarta.persistence.*;
 import lombok.*;
 import org.springframework.data.annotation.CreatedDate;
@@ -10,7 +11,6 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
-import java.io.Serializable;
 import java.security.Principal;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
