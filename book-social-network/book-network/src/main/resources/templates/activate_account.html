@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Account Confirmation</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 20px;
+            color: #333;
+        }
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            background-color: #ffffff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        .header {
+            text-align: center;
+            padding: 10px 0;
+        }
+        .content {
+            line-height: 1.6;
+            margin-bottom: 20px;
+        }
+        .button {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        .button a {
+            background-color: #28a745;
+            color: #ffffff;
+            padding: 10px 20px;
+            text-decoration: none;
+            border-radius: 5px;
+            font-size: 16px;
+        }
+        .footer {
+            text-align: center;
+            color: #777;
+            font-size: 14px;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <div class="header">
+        <h1>Account Confirmation</h1>
+    </div>
+    <div class="content">
+        <p>Hi ${username},</p>
+        <p>Thank you for registering with us! To complete your registration, please use the activation code below or click the confirmation link:</p>
+        <p><strong>Activation Code: ${activation_code}</strong></p>
+    </div>
+    <div class="button">
+        <a href="${confirmationUrl}">Confirm Your Account</a>
+    </div>
+    <div class="footer">
+        <p>If you didn't request this, please ignore this email.</p>
+    </div>
+</div>
+</body>
+</html>

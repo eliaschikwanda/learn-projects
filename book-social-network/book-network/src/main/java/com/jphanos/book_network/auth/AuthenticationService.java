@@ -1,11 +1,15 @@
 package com.jphanos.book_network.auth;
 
+import com.jphanos.book_network.email.EmailService;
+import com.jphanos.book_network.email.EmailTemplateName;
 import com.jphanos.book_network.role.RoleRepository;
 import com.jphanos.book_network.user.Token;
 import com.jphanos.book_network.user.TokenRepository;
 import com.jphanos.book_network.user.User;
 import com.jphanos.book_network.user.UserRepository;
+import jakarta.mail.MessagingException;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -21,8 +25,11 @@ public class AuthenticationService {
     private final PasswordEncoder passwordEncoder;
     private final UserRepository userRepository;
     private final TokenRepository tokenRepository;
+    private final EmailService emailService;
+    @Value("${application.mailing.frontend.activation-url}")
+    private String activationUrl;
 
-    public void register(RegistrationRequest request) {
+    public void register(RegistrationRequest request) throws MessagingException {
         var userRole = roleRepository.findByName("USER")
                 // todo - better exception handling
                 .orElseThrow(() -> new IllegalStateException("ROLE USER was not initialized"));
@@ -39,9 +46,16 @@ public class AuthenticationService {
         sentValidationEmail(user);
     }
 
-    private void sentValidationEmail(User user) {
+    private void sentValidationEmail(User user) throws MessagingException {
         var newToken = generateAndSaveActivationToken(user);
-        // send email
+        emailService.sendEmail(
+                user.getEmail(),
+                user.fullName(),
+                EmailTemplateName.ACTIVATE_ACCOUNT,
+                activationUrl,
+                newToken,
+                "Account Activation"
+        );
     }
 
     private String generateAndSaveActivationToken(User user) {

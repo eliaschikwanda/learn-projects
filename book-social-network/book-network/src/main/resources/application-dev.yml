@@ -33,3 +33,6 @@ application:
     jwt:
       secrect-key: 8BDF2BBB493AE84BC3D752E7DB98F
       expiration: 8640000
+  mailing:
+    frontend:
+      activation-url: http://localhost:4200/activate-account
