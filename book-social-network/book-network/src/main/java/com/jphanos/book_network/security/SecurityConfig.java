@@ -4,7 +4,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationProvider;
-import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -21,12 +20,12 @@ import static org.springframework.security.config.Customizer.withDefaults;
 @EnableMethodSecurity(securedEnabled = true) // for role security
 public class SecurityConfig {
 
-    private jwtFilter jwtAuthFilter;
+    private final jwtFilter jwtAuthFilter;
     private final AuthenticationProvider authenticationProvider;
 
     // Create a bean of type SecurityFilterChain
     @Bean
-    public SecurityFilterChain securityFilterChain(HttpSecurity http, AuthenticationConfiguration authenticationConfiguration) throws Exception {
+    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
                 .cors(withDefaults())
                 .csrf(AbstractHttpConfigurer::disable)
@@ -48,10 +47,11 @@ public class SecurityConfig {
                                 .authenticated()
                 )
                 // Everytime we receive requests we will act on it as if we don't anything about it not storing
-                // sessions in it's context
+                // sessions in its context
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authenticationProvider(authenticationProvider)
                 // Before proceeding to the username password built in filter first execute custom jwtAuthFilter
                 .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class);
+        return  http.build();
     }
 }
