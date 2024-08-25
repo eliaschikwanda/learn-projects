@@ -53,12 +53,12 @@
         <h1>Account Confirmation</h1>
     </div>
     <div class="content">
-        <p>Hi ${username},</p>
+        <p th:text="'Hi ' + ${username} + ',' "></p>
         <p>Thank you for registering with us! To complete your registration, please use the activation code below or click the confirmation link:</p>
-        <p><strong>Activation Code: ${activation_code}</strong></p>
+        <p><strong th:text="'Activation Code: ' + ${activation_code}"></strong></p>
     </div>
     <div class="button">
-        <a href="${confirmationUrl}">Confirm Your Account</a>
+        <a th:href="${confirmationUrl}">Confirm Your Account</a>
     </div>
     <div class="footer">
         <p>If you didn't request this, please ignore this email.</p>
