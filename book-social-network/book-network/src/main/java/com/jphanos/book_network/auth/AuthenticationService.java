@@ -105,7 +105,8 @@ public class AuthenticationService {
         return AuthenticationResponse.builder()
                 .token(jwtToken).build();
     }
-    @Transactional
+
+//    @Transactional
     public void activateAccount(String token) throws MessagingException {
         Token savedToken = tokenRepository.findByToken(token)
                 // todo exception should written better
