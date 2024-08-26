@@ -1,6 +1,8 @@
 package com.jphanos.book_network.user;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.jphanos.book_network.book.Book;
+import com.jphanos.book_network.history.BookTransactionHistory;
 import com.jphanos.book_network.role.Role;
 import jakarta.persistence.*;
 import lombok.*;
@@ -46,6 +48,14 @@ public class User implements UserDetails, Principal {
     @ManyToMany(fetch = FetchType.EAGER) // When you get the user it means also get the roles of the user.
     @JsonIgnore // To avoid the infinity loop
     private List<Role> roles;
+
+    // Book relationship OneToMany --> everytime you have a list it should be OneToMany in this case a user might own many books
+    @OneToMany(mappedBy =   "owner")
+    private List<Book> books;
+
+    // BookTransactionHist relationship
+    @OneToMany(mappedBy = "user")
+    private List<BookTransactionHistory> histories;
 
     // EntityListeners used to keep track of the changes made to the entity
     @CreatedDate
