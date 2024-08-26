@@ -16,6 +16,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Objects;
+import java.util.Optional;
 
 import static com.jphanos.book_network.book.BookSpecification.withOwnerId;
 
@@ -171,6 +172,24 @@ public class BookService {
                 .returned(false)
                 .returnApproved(false)
                 .build();
+        bookTransactionHistoryRepository.save(bookTransactionHistory);
+        return bookTransactionHistory.getId();
+    }
+
+    public Integer returnBorrowedBook(Integer bookId, Authentication connectedUser) {
+        // Let's  make sure we have the book in our database
+        Book book = bookRepository.findById(bookId)
+                .orElseThrow(() -> new EntityNotFoundException("No book found with the ID:: " + bookId));
+        if (book.isShareable() || !book.isArchived()) {
+            throw new OperationNotPermittedException("The request book can not be borrowed since it is archived or not shareable");
+        }
+        User user = (User)connectedUser.getPrincipal();
+        if (Objects.equals(book.getOwner().getId(), user.getId())) {
+            throw new OperationNotPermittedException("You cannot borrow or return your own book");
+        }
+        BookTransactionHistory bookTransactionHistory = bookTransactionHistoryRepository.findByBookIdUserId(bookId, user.getId())
+                .orElseThrow(() -> new OperationNotPermittedException("You did not borrow this book" + bookId));
+        bookTransactionHistory.setReturned(true);
         bookTransactionHistoryRepository.save(bookTransactionHistory);
         return bookTransactionHistory.getId();
     }
