@@ -9,7 +9,6 @@ import com.jphanos.book_network.user.TokenRepository;
 import com.jphanos.book_network.user.User;
 import com.jphanos.book_network.user.UserRepository;
 import jakarta.mail.MessagingException;
-import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.AuthenticationManager;
