@@ -1,5 +1,6 @@
 package com.jphanos.book_network.book;
 
+import com.jphanos.book_network.common.PageResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -32,7 +33,12 @@ public class BookController {
     }
 
     @GetMapping
-    public ResponseEntity<List<PageResponse<>>> findAllBooks() {
-
+    public ResponseEntity<PageResponse<BookResponse>> findAllBooks(
+            @RequestParam(name = "page", defaultValue = "0", required = false) int page,
+            @RequestParam(name = "size", defaultValue = "10", required = false) int size,
+            Authentication connectUser
+    ) {
+        return ResponseEntity.ok(service.findAllBooks(page, size, connectUser));
     }
 }
+
