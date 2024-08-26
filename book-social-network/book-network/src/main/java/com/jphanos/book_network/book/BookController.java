@@ -66,5 +66,14 @@ public class BookController {
         return ResponseEntity.ok(service.findAllReturnedBooks(page, size, connectUser));
     }
 
+    // To update one field we use a patch mapping
+    @PatchMapping("/shareable/{book-id}")
+    public ResponseEntity<Integer> updateShareableStatus(
+            @PathVariable("book-id") Integer bookId,
+            Authentication connectUser
+    ) {
+        return ResponseEntity.ok(service.updateShareableStatus(bookId, connectUser));
+    }
+
 }
 

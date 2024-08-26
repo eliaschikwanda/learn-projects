@@ -1,6 +1,7 @@
 package com.jphanos.book_network.book;
 
 import com.jphanos.book_network.common.PageResponse;
+import com.jphanos.book_network.exception.OperationNOtPermittedException;
 import com.jphanos.book_network.history.BookTransactionHistory;
 import com.jphanos.book_network.history.BookTransactionHistoryRepository;
 import com.jphanos.book_network.user.User;
@@ -14,6 +15,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Objects;
 
 import static com.jphanos.book_network.book.BookSpecification.withOwnerId;
 
@@ -120,6 +122,19 @@ public class BookService {
                 allBorrowedBooks.isFirst(),
                 allBorrowedBooks.isLast()
         );
+    }
+
+    public Integer updateShareableStatus(Integer bookId, Authentication connectUser) {
+        Book book = bookRepository.findById(bookId)
+                .orElseThrow(() -> new EntityNotFoundException("No book found with the ID:: " + bookId));
+        User user = (User)connectUser.getPrincipal();
+        if (!Objects.equals(book.getOwner().getId(), user.getId())) {
+            // throw and exception
+            throw new OperationNOtPermittedException("You cannot update shereable status");
+        }
+        book.setShareable(!book.isShareable()); // Just inverse the values of the boolean
+        bookRepository.save(book);
+        return bookId;
     }
 }
 
