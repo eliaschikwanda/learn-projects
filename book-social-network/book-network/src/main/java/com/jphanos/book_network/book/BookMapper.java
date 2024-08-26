@@ -1,7 +1,9 @@
 package com.jphanos.book_network.book;
 
+import com.jphanos.book_network.file.FileUtils;
 import com.jphanos.book_network.history.BookTransactionHistory;
 import lombok.RequiredArgsConstructor;
+import org.aspectj.util.FileUtil;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -29,8 +31,7 @@ public class BookMapper {
                 .archived(book.isArchived())
                 .shareable(book.isShareable())
                 .owner(book.getOwner().fullName())
-                // todo implement this later
-                // .cover
+                .cover(FileUtils.readFileFromLocation(book.getBookCover()))
                 .build();
     }
 
