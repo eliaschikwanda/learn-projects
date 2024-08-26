@@ -3,6 +3,7 @@ package com.jphanos.book_network.config;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.data.domain.AuditorAware;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
@@ -28,6 +29,12 @@ public class BeansConfig {
     @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
+    }
+
+    // A bean to use the ApplicationAuditAware so we can get the ID of the user
+    @Bean
+    public AuditorAware<Integer> auditorAware() {
+        return new ApplicationAuditAware();
     }
 
     @Bean

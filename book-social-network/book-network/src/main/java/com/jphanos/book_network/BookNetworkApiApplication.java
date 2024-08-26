@@ -11,7 +11,7 @@ import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
 import org.springframework.scheduling.annotation.EnableAsync;
 
 @SpringBootApplication
-@EnableJpaAuditing // Needed for the user entity to be audited.
+@EnableJpaAuditing(auditorAwareRef = "auditorAware") // Needed for the user entity to be audited. --> the parameters are needed so that the bean is referenced.
 @EnableAsync // Esp used for email annotation
 public class BookNetworkApiApplication {
 

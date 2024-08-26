@@ -35,8 +35,8 @@ public class BaseEntity {
     private LocalDateTime lastModifiedDate;
     @CreatedBy
     @Column(nullable = false, updatable = false)
-    private Integer createdBy;
+    private Integer createdBy; // Stores the ID of the user
     @LastModifiedBy
     @Column(insertable = false) // Only fill the column when we perform an update on the entity
-    private Integer lastModifiedBy;
+    private Integer lastModifiedBy; // Stores the ID of the user
 }
