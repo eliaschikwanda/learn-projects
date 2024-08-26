@@ -31,7 +31,7 @@ spring:
 application:
   security:
     jwt:
-      secrect-key: 8BDF2BBB493AE84BC3D752E7DB98F
+      secrect-key: HofhO8m3gf3jEYYVGlAMMwpPo17hCfttM4XY89mkaei
       expiration: 8640000
   mailing:
     frontend:
