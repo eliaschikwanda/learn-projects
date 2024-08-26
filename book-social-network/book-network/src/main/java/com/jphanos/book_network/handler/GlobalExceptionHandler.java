@@ -1,6 +1,6 @@
 package com.jphanos.book_network.handler;
 
-import com.jphanos.book_network.exception.OperationNOtPermittedException;
+import com.jphanos.book_network.exception.OperationNotPermittedException;
 import jakarta.mail.MessagingException;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.BadCredentialsException;
@@ -104,8 +104,8 @@ public class GlobalExceptionHandler {
                 );
     }
 
-    @ExceptionHandler(OperationNOtPermittedException.class)
-    public ResponseEntity<ExceptionResponse> handleException(OperationNOtPermittedException exp) {
+    @ExceptionHandler(OperationNotPermittedException.class)
+    public ResponseEntity<ExceptionResponse> handleException(OperationNotPermittedException exp) {
         return ResponseEntity
                 .status(BAD_REQUEST)
                 .body(
