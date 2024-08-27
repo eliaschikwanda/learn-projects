@@ -5,6 +5,7 @@ import {AuthenticationService} from "../../services/services/authentication.serv
 import {Router} from "@angular/router";
 import {CommonModule} from "@angular/common";
 import {AuthenticationResponse} from "../../services/models/authentication-response";
+import {TokenService} from "../../services/token/token.service";
 
 @Component({
   selector: 'app-login',
@@ -23,7 +24,7 @@ export class LoginComponent {
   constructor(
     private router: Router,
     private authService: AuthenticationService,
-    // another service
+    private tokenService: TokenService
   ) {
   }
 
@@ -34,15 +35,19 @@ export class LoginComponent {
       body: this.authRequest
     }).subscribe({
       next: (res:AuthenticationResponse) : void => {
-        // save the token
+        // When you assign a value to this.tokenService.token, it automatically calls this setter method.
+        this.tokenService.token = res.token as string;
         this.router.navigate(['books'])
       },
       error: (err): void => {
         console.log(err);
+        // validation errors is the response that we're getting
+        // The error messages formed by the validation errors
         if (err.error.validationErrors) {
           this.errorMsg = err.error.validationErrors
         } else {
-          this.errorMsg.push(err.error.error())
+          // The error msgs in the business
+          this.errorMsg.push(err.error.error)
         }
       }
     })
